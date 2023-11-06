@@ -1,0 +1,9 @@
+{
+    "Author": "ReiwaTech",
+    "Name": "HappyIME",
+    "Punchline": "Fixup IME problems",
+    "Description": "Fix IME being set to full-width.",
+    "InternalName": "HappyIME",
+    "ApplicableVersion": "any",
+    "Tags": ["ime", "fix"]
+}
