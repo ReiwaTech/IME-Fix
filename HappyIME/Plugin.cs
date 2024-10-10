@@ -1,7 +1,7 @@
-using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Game;
 using Dalamud.Hooking;
+using Dalamud.Plugin.Services;
 
 namespace HappyIME
 {
@@ -11,12 +11,11 @@ namespace HappyIME
 
         private delegate int GetIMEModeDelegate(nint self);
         private readonly Hook<GetIMEModeDelegate>? getIMEModeHook;
-
         public Plugin(
-            [RequiredVersion("1.0")] ISigScanner sigScanner)
+            ISigScanner sigScanner,
+            IGameInteropProvider gameInteropProvider)
         {
-            nint address = sigScanner.ScanText("E8 ?? ?? ?? ?? 8B D0 EB 0D F6 D3");
-            getIMEModeHook = Hook<GetIMEModeDelegate>.FromAddress(address, this.DetourGetIMEMode);
+            getIMEModeHook = gameInteropProvider.HookFromSignature<GetIMEModeDelegate>("E8 ?? ?? ?? ?? 8B D0 EB 0D F6 D3", this.DetourGetIMEMode);
             getIMEModeHook.Enable();
         }
 
